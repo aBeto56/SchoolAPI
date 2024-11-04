@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using School.Models;
 
 namespace School.Controllers
@@ -38,6 +39,15 @@ namespace School.Controllers
             using (var context = new LibraryContext())
             {
                 return Ok(context.Students.ToList());
+            }
+        }
+
+        [HttpGet("withMark")]
+        public ActionResult<Student> GetWithMark()
+        {
+            using (var context = new LibraryContext())
+            {
+                return Ok(context.Students.Include(mark => mark.Marks).ToList());
             }
         }
     }
